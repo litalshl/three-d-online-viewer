@@ -1,6 +1,8 @@
 # ThreeDOnlineViewer
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.8.
+This project is an online viewer for 3D models in different formats. 
+Currently supported file formats are: .PLY and .DRC.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.6.
 
 ## Development server
 
