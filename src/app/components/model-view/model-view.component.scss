@@ -1,0 +1,74 @@
+.page-container {
+  width: 100%;
+  height: 100%;
+  background-color: #f9f6f2;
+  margin: 0;
+}
+
+.instructions {
+  text-align: left;
+  font: normal normal 300 30px/39px Montserrat;
+  letter-spacing: -0.55px;
+  color: #363636;
+  margin-left: 38px;
+  margin-top: 27px;
+}
+  
+
+  
+app-action-button ::ng-deep .action-btn{
+    background: #574e4e  0% 0% no-repeat padding-box;
+  }
+  
+
+  .model {
+    margin: auto;
+    color:#7FC2E3;
+  }
+
+  .centered{
+    width:400px;
+    height:400px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background-image: #0f0c29;
+    filter: blur(10px) contrast(20);
+  }
+  .blob-1,.blob-2{
+    width:30px;
+    height:30px;
+    position:absolute;
+    background:#fff;
+    border-radius:50%;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+  }
+  .blob-1{
+    left:20%;
+    animation:osc-l 2.5s ease infinite;
+  }
+  .blob-2{
+    left:80%;
+    animation:osc-r 2.5s ease infinite;
+    background:#b4a89a;
+  }
+  @keyframes osc-l{
+    0%{left:20%;}
+    50%{left:50%;}
+    100%{left:20%;}
+  }
+  @keyframes osc-r{
+    0%{left:80%;}
+    50%{left:50%;}
+    100%{left:80%;}
+  }
+ 
+  // Themes
+
+  .dark-theme {
+    &.page-container {
+      background-color: #363636;
+    }
+  }

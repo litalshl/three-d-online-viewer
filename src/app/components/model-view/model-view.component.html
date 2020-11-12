@@ -1,0 +1,9 @@
+<div class="row page-container" [ngClass]="{'dark-theme': (theme === 'dark')}">
+    <div class="model">
+        <canvas #rendererCanvas id="renderCanvas"></canvas>
+        <div *ngIf="engServ.loading" class = "centered">
+            <div class = "blob-1"></div>
+            <div class = "blob-2"></div>
+        </div>
+    </div>        
+</div>
