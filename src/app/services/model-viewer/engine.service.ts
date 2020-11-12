@@ -82,28 +82,7 @@ export class EngineService implements OnDestroy {
   AddTitle(text: string): void{
     this.showText(text, 0, 0, 0, this.scene, 7, 'white');
   }
-
-  public async AddMeasurement(measurementUrl: string,  xPosition: number, yPosition: number, zPosition: number,
-                              measurementsValuesUrl: string, colorMapName: string, minMapValue: number, maxMapValue: number, text?: string,
-                              textShiftX?: string, textShiftY?: string, textShiftZ?: string): Promise<any> {
-      console.log('AddMeasurement was called with url: ' + measurementUrl);
-      let measurementMesh;
-      const material = new THREE.MeshBasicMaterial( {
-      opacity: 0.15,
-      transparent: true
-      });
-      if (measurementUrl.endsWith('.ply')) {
-          measurementMesh = this.loadPlyModel(this.scene, true, measurementUrl, material, xPosition, yPosition,
-                                              zPosition, true, measurementsValuesUrl, colorMapName,
-                                              minMapValue, maxMapValue, text, textShiftX, textShiftY, textShiftZ);
-      } else {
-          measurementMesh = this.loadDracoModel(this.scene, true, measurementUrl, xPosition, yPosition,
-                                                zPosition, material, true, measurementsValuesUrl,
-                                                colorMapName, minMapValue, maxMapValue, text, textShiftX, textShiftY, textShiftZ);
-      }
-      console.log( 'Adding measurement to scene');
-  }
-
+  
   public async AddModel(modelUrl: string,  isFirstModel: boolean, xPosition: number, yPosition: number, zPosition: number, alignNumbers?: number[] ): Promise<any> {
     console.log('AddModel was called with url: ' + modelUrl);
     let geometry;        
@@ -115,10 +94,7 @@ export class EngineService implements OnDestroy {
     } 
     if(isFirstModel) {
       this.setFirstModel(geometry, material, xPosition, yPosition, zPosition, this.scene);     
-    }
-    else{
-      this.setSecondModel(geometry, material, xPosition, yPosition, zPosition, this.scene, alignNumbers); 
-    }         
+    }           
   }
 
   public loadPlyModel(scene: THREE.Scene, isFirstModel: boolean, visualModel: string, material: Material,  xPosition: number,
@@ -159,39 +135,10 @@ public loadDracoModel(scene: THREE.Scene, isFirstModel: boolean, visualModel : s
   });
 }
 
-private setSecondModel(geometry: THREE.BufferGeometry, material: THREE.Material, xPosition: number, yPosition: number, zPosition: number, scene: THREE.Scene, alignNumbers?: number[]) {
-  this.secondModelMesh = this.createMesh(this.firstModelMesh, geometry, material, 0, yPosition, zPosition);    
-    console.log("setSecondModel alignment matrix: " + alignNumbers);
-    if(alignNumbers && alignNumbers.length >= 16)
-    {
-      this.alignModel(alignNumbers, this.secondModelMesh);      
-    } 
-    this.secondModelMesh.position.set(xPosition, yPosition, zPosition);
-    this.secondModelControls = new ObjectControls(this.camera, this.renderer.domElement, this.secondModelMesh);  
-    this.secondModelControls.setMaxVerticalRotationAngle(Math.PI / 4, Math.PI / 4);   
-    this.secondModelControls.setMaxHorizontalRotationAngle(Math.PI / 2, Math.PI / 2);  
-    scene.add(this.secondModelMesh);
-}
-
-private alignModel(alignNumbers: number[], model: Mesh) {
-  let transformationMatrix = new Matrix4();
-  transformationMatrix.set(alignNumbers[0], alignNumbers[1], alignNumbers[2], alignNumbers[3], alignNumbers[4], alignNumbers[5],
-    alignNumbers[6], alignNumbers[7], alignNumbers[8], alignNumbers[9], alignNumbers[10], alignNumbers[11], alignNumbers[12],
-    alignNumbers[13], alignNumbers[14], alignNumbers[15]);
-  model.applyMatrix(transformationMatrix);
-  console.log("Transform matrix applied to model. Matrix: " + alignNumbers);  
-}
-
 private setFirstModel(geometry: THREE.BufferGeometry, material: THREE.Material, xPosition: number, yPosition: number, zPosition: number, scene: THREE.Scene, alignNumbers?: number[]) {
   this.firstModelMesh = this.createMesh(this.firstModelMesh, geometry, material, xPosition, yPosition, zPosition);
   scene.add(this.firstModelMesh);
-  this.firstModelControls = new ObjectControls(this.camera, this.renderer.domElement, this.firstModelMesh); 
-  this.firstModelControls.setMaxVerticalRotationAngle(Math.PI / 4, Math.PI / 4);  
-  this.firstModelControls.setMaxHorizontalRotationAngle(Math.PI / 2, Math.PI / 2);  
-  if(alignNumbers && alignNumbers.length >= 16)
-  {
-    this.alignModel(alignNumbers, this.firstModelMesh);
-  }          
+  this.firstModelControls = new ObjectControls(this.camera, this.renderer.domElement, this.firstModelMesh);     
 }
 
 private createMesh(mesh: any, geometry: THREE.BufferGeometry, material: Material, xPosition: number,
@@ -234,25 +181,7 @@ public showText(text: string, textXPosition: number, textYPosition: number, text
     scene.add(textMesh);
     });
   }
-}
-
-  private async removeModelFromScene(): Promise<any> {
-    console.log('removeModelFromScene was called');
-    while (this.scene.children.length > 0){
-      this.scene.remove(this.scene.children[0]);
-    }
-  }
-
-  private removeAllMeasurements(): void {
-    if (this.renderedMeasurements) {
-      this.renderedMeasurements.map((i) => {
-        const object = this.scene.getObjectByName('measurement') as Mesh;
-        object.geometry.dispose();
-        this.scene.remove(object);
-      });
-    }
-  }
-
+}  
   public render(): void {
     this.frameId = requestAnimationFrame(() => {
       this.render();
