@@ -5,15 +5,25 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 
 import { AppComponent } from './app.component';
 import { ModelViewComponent } from './components/model-view/model-view.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ModelViewComponent
+    ModelViewComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
-    NgxFileDropModule
+    NgxFileDropModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

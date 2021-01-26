@@ -42,6 +42,7 @@ export class ModelViewComponent implements OnInit, OnDestroy {
 
   private async addModel(engineService: any, renderer: any, modelUrl: string, xPosition : number, yPosition : number, zPosition: number,
     isFirstModel: boolean) {
+      console.log('filePath: ', this.filePath);
     if(isFirstModel){
       await engineService.createScene(renderer, true);
     }
